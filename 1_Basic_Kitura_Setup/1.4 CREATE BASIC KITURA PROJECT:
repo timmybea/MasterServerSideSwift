@@ -1,0 +1,47 @@
+1.4 CREATE BASIC KITURA PROJECT:
+
+CREATE EXECUTABLE PACKAGE:
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ swift package init --type executable
+Creating executable package: hello-kitura
+Creating Package.swift
+Creating .gitignore
+Creating Sources/
+Creating Sources/main.swift
+Creating Tests/
+
+BUILD IT:
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ swift build
+Compile Swift Module 'hello_kitura' (1 sources)
+Linking ./.build/debug/hello-kitura
+
+RUN IT:
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ ./.build/debug/hello-kitura
+Hello, world!
+
+GO TO PACKAGE.SWIFT AND ADD KITURADEPENDENCY
+(This can be found at https://packagecatalog.com/package/IBM-Swift/Kitura#1.7.3)
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ nano Package.swift
+
+import PackageDescription
+
+let package = Package(
+    name: "hello-kitura",
+    dependencies: [
+        .Package(url: "https://github.com/IBM-Swift/Kitura.git", majorVersion: $
+        ]
+)
+
+BUILD AGAIN TO INCLUDE KITURA DEPENDENCY
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ swift build
+
+CREATE AN XCODE PROJECT AND OPEN IT
+
+Tims-Macbook-Pro-2:hello-kitura timbeals$ swift package generate-xcodeproj
+Tims-Macbook-Pro-2:hello-kitura timbeals$ open hello-kitura.xcodeproj/
+
+

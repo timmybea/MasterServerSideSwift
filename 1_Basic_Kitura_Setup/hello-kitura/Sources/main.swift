@@ -85,7 +85,6 @@ router.get("people/:name") { (request, response, next) in
     next()
 }
 
-
 //MARK: Reading URL Encoded Form Parameters
 router.post(middleware: BodyParser())
 
@@ -119,12 +118,5 @@ router.post("peopleFormEncoded") { (request, response, next) in
     try response.end()
 }
 
-
-
-
 Kitura.addHTTPServer(onPort: 8090, with: router)
 Kitura.run()
-
-
-
-
