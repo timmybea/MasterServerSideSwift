@@ -1,5 +1,6 @@
 import Kitura
 import HeliumLogger
+import SwiftyJSON
 
 HeliumLogger.use()
 let router = Router()
@@ -44,6 +45,23 @@ extension Sequence where Iterator.Element : Serializable {
     }
 }
 
+//MARK: working with parameters
+
+//String query
+//localhost:8090/people?name=Tim&age=34
+router.get("person") { (request, response, next) in
+    guard let name = request.queryParameters["name"],
+        let age = request.queryParameters["age"]
+        else {
+            try response.status(.badRequest).end()
+            return
+    }
+    
+    response.status(.OK).send("Name is \(name) and age is \(age)")
+    next()
+}
+
+//get all entries under people
 router.get("people") { (request, response, next) in
     
     let tim = Person(name: "Tim", age: 34)
@@ -54,8 +72,6 @@ router.get("people") { (request, response, next) in
     response.send(json: personArray.toDict())
     try response.end()
 }
-
-//MARK: working with parameters
 
 //localhost:8090/people/Tim
 router.get("people/:name") { (request, response, next) in
@@ -68,8 +84,6 @@ router.get("people/:name") { (request, response, next) in
     response.send("The person is called \(name)")
     next()
 }
-//Prints: The person is called Tim
-//Note that with this example you don't have to have a record in the database. You are simply echoing the argument passed into :name
 
 
 //MARK: Reading URL Encoded Form Parameters
@@ -90,6 +104,7 @@ router.post("people") { (request, response, next) in
     try response.end()
 }
 
+//posting with urlformencoded
 router.post("peopleFormEncoded") { (request, response, next) in
     
     guard let body = request.body,
@@ -103,6 +118,7 @@ router.post("peopleFormEncoded") { (request, response, next) in
     response.status(.OK).send("You sent the name \(name)")
     try response.end()
 }
+
 
 
 
